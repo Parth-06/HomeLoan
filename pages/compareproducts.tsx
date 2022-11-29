@@ -8,13 +8,14 @@ const Compareproducts = () => {
     const router = useRouter();
     const dispatch = useDispatch();
   
-   
+   //if no array to compare then redirect to home
     useEffect(() => {
      if(compareArray.length === 0){
       router.push('/')
      }
     }, [])
     
+      //filtering out the array that user wants to remove
     const RemoveData = (remData : any) =>{
       const newData = compareArray.filter((item: any) => {
        return item.uuid !== remData;
@@ -176,7 +177,7 @@ const Compareproducts = () => {
           })
         }
       </div>
-           </div>
+     </div>
     </div>
   )
 }

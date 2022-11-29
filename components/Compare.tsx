@@ -10,6 +10,7 @@ const Compare = () => {
     const dispatch = useDispatch();
     const router = useRouter();
 
+    //Reseting the arrar to []
      const reset = () =>{
         dispatch(
             setReset({
@@ -18,6 +19,7 @@ const Compare = () => {
           );
      }
 
+     //filtering out the array that user wants to remove
      const RemoveData = (remData : any) =>{
         const newData = compareArray.filter((item: any) => {
          return item.uuid !== remData;
@@ -31,16 +33,17 @@ const Compare = () => {
         }
       }
 
+//pushing product in the compare array    
 const compareData = () => {
  if(compareArray.length !== 1){ 
     router.push('/compareproducts')
-    
  }else{
   toast.warn("Add one more product to compare");
-   
  }   
 }
 
+
+  //only show the compare array when product is added to the array
     if(compareArray.length !== 0 && router.pathname !== "/compareproducts"){
         
   return (
@@ -54,20 +57,14 @@ const compareData = () => {
             <div className='remove_logo' onClick={()=>RemoveData(item.uuid)} >❎</div>
             <span><img src={item.companyLogo} className='companyLogo'/></span> 
             </div>
-        )
-      
-        })
-       }
+        )})}
+
       <p onClick={compareData} className="compare_btn">Compare</p>  
       <p onClick={reset} className="compare_reset_btn">Reset All</p>  
       </div>
     </div>
-         )
-    }else{
-        return (
-            <></>
-                 ) 
-    }
+      )
+    }else{return (<></>)}
 }
 
 export default Compare

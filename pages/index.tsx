@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useDispatch, useSelector } from "react-redux";
 import { setCompare, setRemove } from '../Store/userSlice';
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
+//fetching the data from the api 
 export async function getServerSideProps({req, res, query} : any) {
 
   let page = Number(query.page) || 1;
@@ -15,9 +19,6 @@ export async function getServerSideProps({req, res, query} : any) {
    credentials: "include",
  });
  const data = await response.json();
-
- 
-
 return {
    props:{
        data
@@ -27,13 +28,13 @@ return {
 
 const Index = ({data} : any) => {
   const compareArray = useSelector((state: any) => state.userSlice.compare);
-  const [productExits, setProductExits ] = useState([""])
+  const [productExits, setProductExits] = useState([""])
   const dispatch = useDispatch();
 
-  
+  //adding new product in the array
   const compareData = (compData :any) =>{
     if(compareArray.length === 5){
-      alert("Only 5 products can be compared at a time.")
+      toast.warn("Only 5 products can be compared at a time.");
     }else{
       dispatch(
         setCompare({
@@ -44,7 +45,7 @@ const Index = ({data} : any) => {
 
   }
 
-
+      //filtering out the array that user wants to remove
   const RemoveData = (remData : any) =>{
     const newData = compareArray.filter((item: any) => {
      return item.uuid !== remData;
@@ -59,28 +60,26 @@ const Index = ({data} : any) => {
  
   }
 
+  // only show compare button when ProductExists state in empty
   useEffect(() => {
   let arr: any = [];
   compareArray.map((items: { uuid: any })=>{
     arr.push(items.uuid)
   })
   setProductExits(arr)
-  
-  }, [compareArray])
+  },[compareArray])
   
   return(
-    
          <>
-        
           <div className="product_pagination">
-     <Link href={`/?page=${  data.meta.page === 1 ?  data.meta.pageCount :  data.meta.page - 1}`}>
-     <h2>⬅</h2>
-     </Link>
-      <p>{data.meta.page} of {data.meta.pageCount}</p>
-     <Link href={`/?page=${  data.meta.page !==  data.meta.pageCount ?  data.meta.page + 1 : 1}`}>
-     <h2>➡</h2>
-     </Link>
-     </div>
+           <Link href={`/?page=${  data.meta.page === 1 ?  data.meta.pageCount :  data.meta.page - 1}`}>
+          <h2>⬅</h2>
+         </Link>
+           <p>{data.meta.page} of {data.meta.pageCount}</p>
+         <Link href={`/?page=${  data.meta.page !==  data.meta.pageCount ?  data.meta.page + 1 : 1}`}>
+         <h2>➡</h2>
+          </Link>
+        </div>
           <div className='products'>
      {
         data.hits.map((item : any)=>{
@@ -134,13 +133,8 @@ const Index = ({data} : any) => {
      <h2>➡</h2>
      </Link>
      </div>
-
        </>
-
- 
      )
-
-
 }
 
 export default Index
