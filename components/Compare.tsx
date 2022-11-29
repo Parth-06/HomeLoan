@@ -50,7 +50,7 @@ const compareData = () => {
        {
         compareArray.map((item: any)=>{
         return(
-            <div className="compare_logos">
+            <div className="compare_logos" key={item.uuid}>
             <div className='remove_logo' onClick={()=>RemoveData(item.uuid)} >❎</div>
             <span><img src={item.companyLogo} className='companyLogo'/></span> 
             </div>
