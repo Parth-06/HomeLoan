@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
-const errorpage = () => {
+const Errorpage = () => {
     const router = useRouter()
     const handelClick = () =>{
         router.push("/")
@@ -25,4 +25,4 @@ const errorpage = () => {
   )
 }
 
-export default errorpage    
+export default Errorpage    

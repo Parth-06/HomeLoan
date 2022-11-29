@@ -3,11 +3,11 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { setRemove } from '../Store/userSlice';
 
-const compareproducts = () => {
+const Compareproducts = () => {
     const compareArray = useSelector((state: any) => state.userSlice.compare);
     const router = useRouter();
     const dispatch = useDispatch();
-   console.log(compareArray);
+  
    
     useEffect(() => {
      if(compareArray.length === 0){
@@ -168,7 +168,7 @@ const compareproducts = () => {
             return(
               <>
             <div className="row_2_compare">
-            <a href={item.gotoSiteUrl} target="_blank"><span className='company_btn' style={{marginLeft: "2rem"}}>Go to site ➡</span></a>
+            <a href={item.gotoSiteUrl} target="_blank" rel="noreferrer"><span className='company_btn' style={{marginLeft: "2rem"}}>Go to site ➡</span></a>
             </div>
               </>
         
@@ -181,4 +181,4 @@ const compareproducts = () => {
   )
 }
 
-export default compareproducts
+export default Compareproducts

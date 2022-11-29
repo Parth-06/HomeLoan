@@ -25,7 +25,7 @@ return {
 }
 }
 
-const index = ({data} : any) => {
+const Index = ({data} : any) => {
   const compareArray = useSelector((state: any) => state.userSlice.compare);
   const apiarray = useSelector((state: any) => state.userSlice.apiData);
   const [productExits, setProductExits ] = useState([])
@@ -119,10 +119,10 @@ const index = ({data} : any) => {
                  <span onClick={()=>compareData(item)} className="compare_compare">Compare</span> 
 
                 }
-                <a href={item.applyUrl} target="_blank"> <span className='moreinfo'>More Information</span></a>
+                <a href={item.applyUrl} target="_blank" rel="noreferrer"> <span className='moreinfo'>More Information</span></a>
                </div>
                <div className='product_table_companyInfo'>
-                <span ><img src={item.companyLogo} className='companyLogo'/></span> <a href={item.gotoSiteUrl} target="_blank"><span className='company_btn'>Go to site ➡</span></a> 
+                <span ><img src={item.companyLogo} className='companyLogo'/></span> <a href={item.gotoSiteUrl} target="_blank" rel="noreferrer"><span className='company_btn'>Go to site ➡</span></a> 
                </div>
                </div>
            )
@@ -147,4 +147,4 @@ const index = ({data} : any) => {
 
 }
 
-export default index
+export default Index
