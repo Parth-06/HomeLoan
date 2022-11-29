@@ -27,8 +27,7 @@ return {
 
 const Index = ({data} : any) => {
   const compareArray = useSelector((state: any) => state.userSlice.compare);
-  const apiarray = useSelector((state: any) => state.userSlice.apiData);
-  const [productExits, setProductExits ] = useState([])
+  const [productExits, setProductExits ] = useState([""])
   const dispatch = useDispatch();
 
   
@@ -84,7 +83,7 @@ const Index = ({data} : any) => {
      </div>
           <div className='products'>
      {
-        data.hits.map((item: any)=>{
+        data.hits.map((item : any)=>{
            return (
                <div key={item.uuid} className="products_table">
                 <span className='product_name'>{item.name}</span>
@@ -110,13 +109,10 @@ const Index = ({data} : any) => {
                </div>
                <div className='product_table_compare'>
                 {
-
-                }
-                {
                  productExits.includes(item.uuid) ? 
-                  <span onClick={()=>RemoveData(item.uuid)} className="compare_remove">Remove</span>
+                (  <span onClick={()=>RemoveData(item.uuid)} className="compare_remove">Remove</span>)
                   :
-                 <span onClick={()=>compareData(item)} className="compare_compare">Compare</span> 
+                ( <span onClick={()=>compareData(item)} className="compare_compare">Compare</span> )
 
                 }
                 <a href={item.applyUrl} target="_blank" rel="noreferrer"> <span className='moreinfo'>More Information</span></a>
