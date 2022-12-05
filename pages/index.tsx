@@ -8,8 +8,7 @@ import { toast } from "react-toastify";
 //fetching the data from the api 
 export async function getServerSideProps({req, res, query} : any) {
 
-  let page = Number(query.page) || 1;
- const response = await fetch(`https://api.ratecity.com.au/v2/home-loans/?page=${page}` , {
+ const response = await fetch(`https://api.ratecity.com.au/v2/home-loans` , {
    method: "GET",
    headers: {
      "Content-Type": 'application/json',
@@ -19,18 +18,30 @@ export async function getServerSideProps({req, res, query} : any) {
    credentials: "include",
  });
  const data = await response.json();
+ let tempObj : any= {}
+
+ console.log(Object.keys(tempObj).length === 0 );
+ const mapData = data.hits.map((prod : any)=>{
+  tempObj[prod.companyName] = prod
+})
+
+
 return {
    props:{
-       data
+       data,
+       tempObj
    }
 }
 }
 
-const Index = ({data} : any) => {
+const Index = ({data, tempObj} : any) => {
   const compareArray = useSelector((state: any) => state.userSlice.compare);
   const [productExits, setProductExits] = useState([""])
   const dispatch = useDispatch();
+  const dataArray = Object.values(tempObj);
 
+
+ 
   //adding new product in the array
   const compareData = (compData :any) =>{
     if(compareArray.length === 5){
@@ -57,7 +68,6 @@ const Index = ({data} : any) => {
         })
       );
     }
- 
   }
 
   // only show compare button when ProductExists state in empty
@@ -71,18 +81,10 @@ const Index = ({data} : any) => {
   
   return(
          <>
-          <div className="product_pagination">
-           <Link href={`/?page=${  data.meta.page === 1 ?  data.meta.pageCount :  data.meta.page - 1}`}>
-          <h2>⬅</h2>
-         </Link>
-           <p>{data.meta.page} of {data.meta.pageCount}</p>
-         <Link href={`/?page=${  data.meta.page !==  data.meta.pageCount ?  data.meta.page + 1 : 1}`}>
-         <h2>➡</h2>
-          </Link>
-        </div>
+        
           <div className='products'>
      {
-        data.hits.map((item : any)=>{
+       dataArray.map((item : any)=>{
            return (
                <div key={item.uuid} className="products_table">
                 <span className='product_name'>{item.name}</span>
@@ -123,15 +125,6 @@ const Index = ({data} : any) => {
            )
        })
      }
-     </div>
-     <div className="product_pagination">
-     <Link href={`/?page=${  data.meta.page === 1 ?  data.meta.pageCount :  data.meta.page - 1}`}>
-     <h2>⬅</h2>
-     </Link>
-      <p>{data.meta.page} of {data.meta.pageCount}</p>
-     <Link href={`/?page=${  data.meta.page !==  data.meta.pageCount ?  data.meta.page + 1 : 1}`}>
-     <h2>➡</h2>
-     </Link>
      </div>
        </>
      )
